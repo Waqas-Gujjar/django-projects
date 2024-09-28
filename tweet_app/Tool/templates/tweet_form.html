@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4">Create a New Tweet</h2>
+
+      <!-- Displaying Form Errors -->
+      {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+          <strong>Please correct the errors below:</strong>
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      
+      <!-- Tweet Creation Form -->
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.Text.label_tag }} <span class="text-danger">*</span>
+          {{ form.Text }}
+        </div>
+        <div class="mb-3">
+          {{ form.Image.label_tag }}
+          {{ form.Image }}
+        </div>
+
+        <!-- Preview for Uploaded Image -->
+        <div class="mb-3">
+          <img id="image-preview" src="#" alt="Image Preview" style="max-width: 300px; display: none;" class="img-thumbnail">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for Image Preview -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const imageInput = document.querySelector('input[type="file"]');
+    const imagePreview = document.getElementById('image-preview');
+
+    imageInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+  });
+</script>
+{% endblock %}
