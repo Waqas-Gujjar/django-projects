@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>
+        {% block title %}
+        Auth Page
+        {% endblock %}
+    </title>
+    <style>
+        /* Custom styles for the body and navbar */
+        body {
+            background-color: #f8f9fa; /* Light background color */
+            height: 100vh; /* Full height to center content vertically */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+        }
+
+        .navbar {
+            background-color: #007bff; /* Bootstrap primary color */
+            position: fixed; /* Keep the navbar at the top */
+            top: 0; /* Align to the top */
+            width: 100%; /* Full width */
+            z-index: 1000; /* Ensure it is on top */
+        }
+
+        .navbar-brand {
+            color: white !important; /* White text for brand name */
+            font-weight: bold; /* Bold font for the brand */
+        }
+
+        .navbar .nav-link {
+            color: white !important; /* White text for nav links */
+        }
+
+        .navbar .nav-link:hover {
+            color: #e2e6ea !important; /* Light color on hover */
+        }
+
+        .navbar .username {
+            color: white; /* Username color */
+            font-weight: bold; /* Bold font for username */
+            margin-right: 15px; /* Add space to the right of the username */
+        }
+
+        .content-center {
+            text-align: center; /* Center align text */
+            margin-top: 80px; /* Margin to avoid overlap with fixed navbar */
+        }
+
+        .content-center h1 {
+            font-size: 3rem; /* Large font size for main heading */
+            color: #343a40; /* Darker color for text */
+        }
+
+        .btn-logout {
+            background-color: #dc3545; /* Bootstrap danger color for logout button */
+            color: white; /* White text */
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">Auth Page</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <!-- Display the username and Logout button if the user is logged in -->
+                        <li class="nav-item">
+                            <span class="navbar-text username">{{ user.username }}</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-logout btn btn-primary" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <!-- If the user is not logged in, show Login and Sign Up buttons -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'registration' %}">Sign Up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container mt-4 content-center">
+        {% block content %}
+        <h1>Welcome to the Auth Page</h1>
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>
